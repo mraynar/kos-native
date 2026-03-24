@@ -1,0 +1,7 @@
+{
+    "require": {
+        "midtrans/midtrans-php": "^2.6",
+        "dompdf/dompdf": "^3.1",
+        "phpmailer/phpmailer": "^7.0"
+    }
+}
