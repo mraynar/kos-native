@@ -1,31 +1,26 @@
 <?php
-// 1. Inisialisasi & Proteksi
 require_once '../../config/database.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Pastikan user adalah penyewa
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'penyewa') {
     header("Location: /sewa-kos/auth/login.php");
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
-$alert = null; // Variabel untuk menyimpan pesan notifikasi
+$alert = null; 
 
-// 2. Logika Backend (Dijalankan saat tombol submit diklik)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $current_password = $_POST['current_password'];
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Ambil password lama dari DB
     $query = mysqli_query($conn, "SELECT password FROM users WHERE id = '$user_id'");
     $user = mysqli_fetch_assoc($query);
 
-    // Validasi input
     if (!password_verify($current_password, $user['password'])) {
         $alert = ['status' => 'error', 'message' => 'Kata sandi saat ini tidak sesuai.'];
     } elseif ($new_password !== $confirm_password) {
