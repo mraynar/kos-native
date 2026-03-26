@@ -1,10 +1,66 @@
+<?php
+// 1. Inisialisasi & Proteksi
+require_once '../../config/database.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Pastikan user adalah penyewa
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'penyewa') {
+    header("Location: /sewa-kos/auth/login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+$alert = null; // Variabel untuk menyimpan pesan notifikasi
+
+// 2. Logika Backend (Dijalankan saat tombol submit diklik)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $current_password = $_POST['current_password'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    // Ambil password lama dari DB
+    $query = mysqli_query($conn, "SELECT password FROM users WHERE id = '$user_id'");
+    $user = mysqli_fetch_assoc($query);
+
+    // Validasi input
+    if (!password_verify($current_password, $user['password'])) {
+        $alert = ['status' => 'error', 'message' => 'Kata sandi saat ini tidak sesuai.'];
+    } elseif ($new_password !== $confirm_password) {
+        $alert = ['status' => 'error', 'message' => 'Konfirmasi kata sandi baru tidak cocok.'];
+    } elseif (strlen($new_password) < 8) {
+        $alert = ['status' => 'error', 'message' => 'Kata sandi baru minimal harus 8 karakter.'];
+    } else {
+        // Proses Update
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $update = mysqli_query($conn, "UPDATE users SET password = '$hashed_password' WHERE id = '$user_id'");
+
+        if ($update) {
+            $alert = ['status' => 'success', 'message' => 'Kata sandi berhasil diperbarui!'];
+        } else {
+            $alert = ['status' => 'error', 'message' => 'Terjadi kesalahan sistem. Coba lagi nanti.'];
+        }
+    }
+}
+?>
+
 <div class="flex items-center gap-4 mb-10 text-left">
     <div class="w-2 h-8 bg-primary rounded-full"></div>
     <h3 class="text-2xl font-black text-slate-800 tracking-tight">Pengaturan Keamanan</h3>
 </div>
 
 <div class="max-w-md mx-auto lg:mx-0" x-data="{ showOld: false, showNew: false, showConfirm: false }">
-    <form action="update-handler.php?action=password" method="POST" class="space-y-6 text-left">
+
+    <?php if ($alert): ?>
+        <div class="mb-6 p-4 rounded-2xl flex items-center gap-3 <?= $alert['status'] === 'success' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100' ?>">
+            <i class="fas <?= $alert['status'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?>"></i>
+            <p class="text-xs font-bold"><?= $alert['message'] ?></p>
+        </div>
+    <?php endif; ?>
+
+    <form action="" method="POST" class="space-y-6 text-left">
 
         <div class="space-y-2">
             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Kata Sandi Saat Ini</label>
