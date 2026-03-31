@@ -12,17 +12,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = mysqli_fetch_assoc($result);
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_id']  = $user['id'];
         $_SESSION['nickname'] = $user['nickname'];
-        $_SESSION['role'] = $user['role'];
+        $_SESSION['role']     = $user['role'];
+        $_SESSION['email']    = $user['email'];
 
-        header("Location: ../" . $user['role'] . "/dashboard.php");
+        switch ($user['role']) {
+            case 'admin':
+                header("Location: ../admin/index.php");
+                break;
+
+            case 'penyewa':
+                header("Location: ../penyewa/dashboard.php");
+                break;
+
+            case 'pegawai':
+                header("Location: ../pegawai/dashboard.php");
+                break;
+
+            default:
+                $error = "Role pengguna tidak terdaftar!";
+                break;
+        }
         exit();
     } else {
         $error = "Nomor HP/Email atau kata sandi salah!";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 

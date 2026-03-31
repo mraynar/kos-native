@@ -1,6 +1,15 @@
 <?php
 $user_id = $_SESSION['user_id'];
 
+if (isset($_GET['cancel_id'])) {
+    $cancel_id = mysqli_real_escape_string($conn, $_GET['cancel_id']);
+    // Hanya bisa hapus jika milik user ybs dan status masih pending
+    $delete = mysqli_query($conn, "DELETE FROM bookings WHERE id = '$cancel_id' AND user_id = '$user_id' AND status = 'pending'");
+    if ($delete) {
+        echo "<script>window.location.href='index.php?tab=history';</script>";
+    }
+}
+
 $q_history = mysqli_query(
     $conn,
     "SELECT bookings.*, rooms.room_number, room_types.image as type_image 
@@ -21,7 +30,8 @@ $q_history = mysqli_query(
     <?php if (mysqli_num_rows($q_history) > 0): ?>
         <?php while ($row = mysqli_fetch_assoc($q_history)): ?>
             <div class="bg-white border border-slate-300 p-6 rounded-[35px] shadow-xl shadow-slate-200/50 flex flex-col md:flex-row items-center gap-6">
-                <div class="w-full md:w-32 h-24 rounded-2xl overflow-hidden bg-slate-100 border border-primary-dark shadow-xl flex-shrink-0">
+
+                <div class="w-full md:w-32 h-24 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
                     <img src="/kos-native/assets/img/room_types/<?= $row['type_image'] ?>" class="w-full h-full object-cover">
                 </div>
 
@@ -34,7 +44,7 @@ $q_history = mysqli_query(
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-2 w-full md:w-auto">
+                <div class="flex flex-col gap-2 w-full md:w-auto min-w-[160px]">
                     <?php if ($row['status'] === 'paid'): ?>
                         <span class="px-6 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase text-center border border-emerald-200">Lunas</span>
 
@@ -44,8 +54,14 @@ $q_history = mysqli_query(
                     <?php else: ?>
                         <span class="px-6 py-2 bg-amber-50 text-amber-600 rounded-xl text-[10px] font-black uppercase text-center border border-amber-100">Pending</span>
 
-                        <a href="../transaction/payment.php?id=<?= $row['id'] ?>" class="px-6 py-3 bg-primary text-white rounded-xl text-[10px] font-black uppercase text-center">
+                        <a href="../transaction/payment.php?id=<?= $row['id'] ?>" class="px-6 py-3 bg-primary text-white rounded-xl text-[10px] font-black uppercase text-center hover:bg-slate-900 transition-all">
                             Bayar Sekarang
+                        </a>
+
+                        <a href="index.php?tab=history&cancel_id=<?= $row['id'] ?>"
+                            onclick="return confirm('Batalkan pesanan ini?')"
+                            class="text-[9px] font-black text-red-400 uppercase text-center hover:text-red-600 transition-colors py-1">
+                            <i class="fas fa-times mr-1"></i> Batalkan Pesanan
                         </a>
                     <?php endif; ?>
                 </div>

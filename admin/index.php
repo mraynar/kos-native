@@ -5,6 +5,10 @@ $totalProperti = $conn->query("SELECT count(*) as total FROM rooms")->fetch_asso
 $totalUser = $conn->query("SELECT count(*) as total FROM users")->fetch_assoc()['total'];
 $totalPesanan = $conn->query("SELECT count(*) as total FROM bookings")->fetch_assoc()['total'];
 
+$queryPendapatan = $conn->query("SELECT SUM(total_price) as total_pendapatan FROM bookings WHERE status = 'paid'");
+$dataPendapatan = $queryPendapatan->fetch_assoc();
+$totalPendapatan = $dataPendapatan['total_pendapatan'] ?? 0;
+
 ob_start();
 ?>
 
@@ -40,7 +44,9 @@ ob_start();
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-gray-600 text-sm">Pendapatan</p>
-                <p class="text-2xl font-bold text-gray-900">Rp 45M</p>
+                <p class="text-2xl font-bold text-gray-900">
+                    Rp <?= number_format($totalPendapatan, 0, ',', '.') ?>
+                </p>
             </div>
             <i class="fas fa-dollar-sign text-4xl text-red-500 opacity-20"></i>
         </div>

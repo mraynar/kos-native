@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'penyewa') {
-    header("Location: /sewa-kos/auth/login.php");
+    header("Location: /kos-native/auth/login.php");
     exit();
 }
 
@@ -21,7 +21,6 @@ if (empty($id_booking)) {
     die("ID Transaksi tidak ditemukan.");
 }
 
-// 1. QUERY UTAMA
 $query = "SELECT bookings.*, rooms.room_number, room_types.name as type_name, 
           room_types.base_price_daily, users.full_name_ktp, users.email, users.phone 
           FROM bookings 
@@ -37,7 +36,6 @@ if (!$data) {
     die("Data transaksi tidak ditemukan.");
 }
 
-// 2. QUERY LAYANAN TAMBAHAN
 $services_query = mysqli_query($conn, "SELECT bs.*, ads.service_name, ads.service_price, ads.duration_type 
                                        FROM booking_service bs
                                        JOIN additional_services ads ON bs.additional_service_id = ads.id
@@ -48,7 +46,6 @@ while ($row = mysqli_fetch_assoc($services_query)) {
     $services[] = $row;
 }
 
-// 3. LOGIKA MIDTRANS
 \Midtrans\Config::$serverKey = 'Mid-server-QWIUeWSf_M92Na-vnWXvLS5E';
 \Midtrans\Config::$isProduction = false;
 $payment_method = "MIDTRANS PAYMENT";
@@ -63,12 +60,10 @@ try {
 } catch (Exception $e) {
 }
 
-// 4. KALKULASI DURASI
 $d1 = new DateTime($data['check_in']);
 $d2 = new DateTime($data['check_out']);
 $total_days = $d1->diff($d2)->days ?: 1;
 
-// Hitung Harga Kamar Murni (Total Bayar - Total Service)
 $total_service_calculated = 0;
 foreach ($services as $s) {
     $qty_s = ($s['duration_type'] == 'Mingguan') ? floor($total_days / 7) : $total_days;

@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'penyewa') {
-    header("Location: /sewa-kos/auth/login.php");
+    header("Location: /kos-native/auth/login.php");
     exit();
 }
 

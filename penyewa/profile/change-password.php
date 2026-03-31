@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'penyewa') {
-    header("Location: /sewa-kos/auth/login.php");
+    header("Location: /kos-native/auth/login.php");
     exit();
 }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($new_password) < 8) {
         $alert = ['status' => 'error', 'message' => 'Kata sandi baru minimal harus 8 karakter.'];
     } else {
-        // Proses Update
+
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
         $update = mysqli_query($conn, "UPDATE users SET password = '$hashed_password' WHERE id = '$user_id'");
 
