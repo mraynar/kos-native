@@ -69,7 +69,7 @@ ob_start();
         <div class="lg:col-span-2 space-y-8">
 
             <div class="relative rounded-[40px] overflow-hidden shadow-2xl h-[450px] border-8 border-white bg-white group">
-                <img src="/sewa-kos/assets/img/room_types/<?= $room['type_image'] ?>"
+                <img src="/kos-native/assets/img/room_types/<?= $room['type_image'] ?>"
                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Interior">
                 <div class="absolute top-6 left-6 flex gap-3">
                     <span class="bg-white/90 backdrop-blur-md px-5 py-2 rounded-2xl text-primary font-black text-[10px] uppercase tracking-[0.2em] shadow-xl">
@@ -129,7 +129,7 @@ ob_start();
                         </div>
                         <div>
                             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mb-1">Luas Kamar</p>
-                            <p class="text-lg font-black text-slate-800 tracking-tight"><?= $room['area_size'] ?> M²</p>
+                            <p class="text-lg font-black text-slate-800 tracking-tight"><?= $room['area_size'] ?>m</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-4 p-5 bg-white rounded-3xl shadow-lg shadow-slate-100/50 border border-slate-200 group hover:border-yellow-500 transition-all">
@@ -279,22 +279,22 @@ ob_start();
                             <?php
                             else:
                             ?>
-                                <button type="submit" id="btnPesan" disabled class="w-full bg-primary hover:bg-slate-900 text-white font-black py-5 rounded-[24px] shadow-xl shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-3 text-lg disabled:opacity-50">
+                                <button type="submit" id="btnPesan" disabled class="cursor-pointer w-full bg-primary hover:bg-slate-900 text-white font-black py-5 rounded-[24px] shadow-xl shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-3 text-lg disabled:opacity-50">
                                     <i class="fas fa-shopping-cart"></i> Pesan Sekarang
                                 </button>
                         <?php
-                            endif; 
-                        endif; 
+                            endif;
+                        endif;
                         ?>
 
                         <a href="https://wa.me/6289502390206" target="_blank" class="w-full flex items-center justify-center gap-3 border-2 border-green-500 text-green-600 font-black py-4 rounded-[24px] hover:bg-green-500 hover:text-white transition-all text-lg group">
                             <i class="fab fa-whatsapp text-2xl group-hover:scale-110 transition-transform"></i> Hubungi Owner
                         </a>
+                    </div>
                 </div>
+            </form>
         </div>
-        </form>
     </div>
-</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

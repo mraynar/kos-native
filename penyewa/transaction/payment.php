@@ -24,7 +24,7 @@ if ($start_date !== '-' && $end_date !== '-') {
         $d1 = new DateTime($start_date);
         $d2 = new DateTime($end_date);
         $days = $d1->diff($d2)->days;
-        if ($days == 0) $days = 1; 
+        if ($days == 0) $days = 1;
     } catch (Exception $e) {
         $days = 0;
     }
@@ -135,7 +135,7 @@ ob_start();
 
                         <div class="p-7 space-y-6">
                             <div class="relative w-full h-36 rounded-[32px] overflow-hidden border-4 border-slate-100 shadow-sm bg-slate-100">
-                                <img src="/sewa-kos/assets/img/room_types/<?= $room['type_image'] ?>" class="w-full h-full object-cover">
+                                <img src="/kos-native/assets/img/room_types/<?= $room['type_image'] ?>" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                 <div class="absolute bottom-4 left-5 text-white text-left">
                                     <p class="text-[14px] font-black tracking-tighter leading-none">Kamar <?= $room['room_number'] ?></p>
@@ -211,7 +211,6 @@ ob_start();
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-L_bn4F9sR0P18Fue"></script>
 
 <script type="text/javascript">
-
     function startTimer(duration, display) {
         var timer = duration,
             hours, minutes, seconds;
@@ -246,7 +245,7 @@ ob_start();
             .then(data => {
                 if (data.token) {
 
-                document.getElementById('loading-payment').style.display = 'none';
+                    document.getElementById('loading-payment').style.display = 'none';
                     window.snap.embed(data.token, {
                         embedId: 'snap-container',
                         onSuccess: function(result) {
@@ -257,7 +256,7 @@ ob_start();
                         }
                     });
                 } else {
-                    
+
                     console.error("Midtrans Error:", data.error);
                     document.getElementById('loading-payment').innerHTML = `
                         <i class="fas fa-exclamation-triangle text-red-500 mb-2"></i>

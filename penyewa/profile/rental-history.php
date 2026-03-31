@@ -22,7 +22,7 @@ $q_history = mysqli_query(
         <?php while ($row = mysqli_fetch_assoc($q_history)): ?>
             <div class="bg-white border border-slate-300 p-6 rounded-[35px] shadow-xl shadow-slate-200/50 flex flex-col md:flex-row items-center gap-6">
                 <div class="w-full md:w-32 h-24 rounded-2xl overflow-hidden bg-slate-100 border border-primary-dark shadow-xl flex-shrink-0">
-                    <img src="/sewa-kos/assets/img/room_types/<?= $row['type_image'] ?>" class="w-full h-full object-cover">
+                    <img src="/kos-native/assets/img/room_types/<?= $row['type_image'] ?>" class="w-full h-full object-cover">
                 </div>
 
                 <div class="flex-grow text-left">

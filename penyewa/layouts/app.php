@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $is_logged_in = isset($_SESSION['role']) && $_SESSION['role'] === 'penyewa';
+$back = true;
 $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
 
 ?>
@@ -14,7 +15,7 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Griya Asri Kos' ?></title>
-    <link rel="stylesheet" href="/sewa-kos/assets/css/output.css">
+    <link rel="stylesheet" href="/kos-native/assets/css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -36,7 +37,7 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
         class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <a href="/sewa-kos/penyewa/dashboard.php" class="text-2xl font-black text-primary tracking-tighter flex items-center gap-2">
+                <a href="/kos-native/penyewa/dashboard.php" class="text-2xl font-black text-primary tracking-tighter flex items-center gap-2">
                     <span class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center not-italic shadow-lg shadow-primary/20">
                         <i class="fas fa-home text-white text-xs"></i>
                     </span>
@@ -45,21 +46,21 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
 
                 <div class="hidden md:flex items-center space-x-8">
                     <div class="flex items-center space-x-6">
-                        <a href="/sewa-kos/penyewa/dashboard.php"
+                        <a href="/kos-native/penyewa/dashboard.php"
                             @click="activeSection = 'home'"
                             :class="activeSection === 'home' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-500 hover:text-primary'"
                             class="text-sm font-bold transition-all duration-300">
                             Beranda
                         </a>
 
-                        <a href="/sewa-kos/penyewa/dashboard.php#daftar-kamar"
+                        <a href="/kos-native/penyewa/dashboard.php#daftar-kamar"
                             @click="activeSection = 'daftar-kamar'"
                             :class="activeSection === 'daftar-kamar' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-500 hover:text-primary'"
                             class="text-sm font-bold transition-all duration-300">
                             Kamar
                         </a>
 
-                        <a href="/sewa-kos/penyewa/dashboard.php#about"
+                        <a href="/kos-native/penyewa/dashboard.php#about"
                             @click="activeSection = 'about'"
                             :class="activeSection === 'about' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-500 hover:text-primary'"
                             class="text-sm font-bold transition-all duration-300">
@@ -73,15 +74,15 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
                                 <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Mahasiswa</p>
                                 <p class="text-sm font-bold text-primary"><?= htmlspecialchars($nickname) ?></p>
                             </div>
-                            <a href="/sewa-kos/penyewa/profile/" class="w-11 h-11 bg-slate-100 text-primary rounded-2xl flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
+                            <a href="<?= strpos($_SERVER['PHP_SELF'], 'profile/index.php') !== false ? 'index.php' : 'profile/index.php' ?>" class="w-11 h-11 bg-slate-100 text-primary rounded-2xl flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                                 <i class="fas fa-user-graduate text-lg"></i>
                             </a>
                         <?php else: ?>
                             <div class="flex items-center gap-2">
-                                <a href="/sewa-kos/auth/login.php" class="px-5 py-2.5 text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-all">
+                                <a href="/kos-native/auth/login.php" class="px-5 py-2.5 text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-all">
                                     Masuk
                                 </a>
-                                <a href="/sewa-kos/auth/register.php" class="px-7 py-3 bg-slate-900 text-white text-xs font-black uppercase tracking-widest rounded-2xl hover:bg-primary transition-all shadow-xl shadow-slate-200">
+                                <a href="/kos-native/auth/register.php" class="px-7 py-3 bg-slate-900 text-white text-xs font-black uppercase tracking-widest rounded-2xl hover:bg-primary transition-all shadow-xl shadow-slate-200">
                                     Daftar
                                 </a>
                             </div>
@@ -124,9 +125,9 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
                 <div>
                     <h4 class="text-lg font-black mb-6 uppercase tracking-widest text-blue-200">Navigasi</h4>
                     <ul class="space-y-4 font-bold text-sm">
-                        <li><a href="/sewa-kos/penyewa/dashboard.php" class="hover:text-blue-200 transition-all">Beranda</a></li>
-                        <li><a href="/sewa-kos/penyewa/dashboard.php#daftar-kamar" class="hover:text-blue-200 transition-all">Kamar</a></li>
-                        <li><a href="/sewa-kos/penyewa/dashboard.php#about" class="hover:text-blue-200 transition-all">Tentang Kami</a></li>
+                        <li><a href="/kos-native/penyewa/dashboard.php" class="hover:text-blue-200 transition-all">Beranda</a></li>
+                        <li><a href="/kos-native/penyewa/dashboard.php#daftar-kamar" class="hover:text-blue-200 transition-all">Kamar</a></li>
+                        <li><a href="/kos-native/penyewa/dashboard.php#about" class="hover:text-blue-200 transition-all">Tentang Kami</a></li>
                         <li><a href="#" class="hover:text-blue-200 transition-all">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>

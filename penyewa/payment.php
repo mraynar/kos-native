@@ -27,7 +27,7 @@ ob_start();
                 <span class="text-[10px] font-black text-slate-500 uppercase italic">Pilih</span>
             </div>
             <div class="w-8 h-[1px] bg-slate-300"></div>
-            
+
             <div class="flex items-center gap-2 opacity-50">
                 <span class="w-7 h-7 rounded-full bg-slate-500 text-white flex items-center justify-center text-[10px] font-black shadow-sm">2</span>
                 <span class="text-[10px] font-black text-slate-500 uppercase italic">Konfirmasi</span>
@@ -119,7 +119,7 @@ ob_start();
 
                         <div class="p-7 space-y-6">
                             <div class="relative w-full h-36 rounded-[32px] overflow-hidden border-4 border-slate-100 shadow-sm bg-slate-100">
-                                <img src="/sewa-kos/assets/img/room_types/<?= $room['type_image'] ?>" class="w-full h-full object-cover">
+                                <img src="/kos-native/assets/img/room_types/<?= $room['type_image'] ?>" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                 <div class="absolute bottom-4 left-5 text-white text-left">
                                     <p class="text-[14px] font-black italic tracking-tighter leading-none">Kamar <?= $room['room_number'] ?></p>

@@ -195,7 +195,7 @@ ob_start();
                     <?php endif; ?>
 
                     <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="/sewa-kos/assets/img/room_types/<?= $room['type_image'] ?>" alt="Kamar"
+                        <img src="/kos-native/assets/img/room_types/<?= $room['type_image'] ?>" alt="Kamar"
                             class="w-full h-full object-cover transition-transform duration-500 <?= $is_available ? 'group-hover:scale-110' : 'grayscale' ?>">
 
                         <div class="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
@@ -284,7 +284,7 @@ ob_start();
 
             <div class="relative">
                 <div class="aspect-[4/5] md:aspect-[16/11] rounded-[56px] overflow-hidden shadow-2xl border-8 border-white bg-white">
-                    <img src="/sewa-kos/assets/img/about/about-students.jpg"
+                    <img src="/kos-native/assets/img/about/about-students.jpg"
                         class="w-full h-full object-cover" alt="Suasana Griya Asri Kos">
                 </div>
 

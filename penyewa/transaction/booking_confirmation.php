@@ -112,7 +112,7 @@ ob_start();
         <div class="bg-white rounded-[40px] shadow-2xl shadow-slate-200 border border-white overflow-hidden">
 
             <div class="relative h-[250px] overflow-hidden group">
-                <img src="/sewa-kos/assets/img/room_types/<?= $room['type_image'] ?>" class="w-full h-full object-cover">
+                <img src="/kos-native/assets/img/room_types/<?= $room['type_image'] ?>" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div class="absolute bottom-4 left-8">
                     <span class="bg-primary text-white px-4 py-1.5 rounded-xl text-sm font-black uppercase tracking-widest shadow-lg">
