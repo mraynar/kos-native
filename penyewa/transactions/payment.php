@@ -12,6 +12,9 @@ $id_room = $_POST['id_room'] ?? '';
 $total_price = $_POST['total_price'] ?? 0;
 $start_date = $_POST['start_date'] ?? '-';
 $end_date = $_POST['end_date'] ?? '-';
+
+$service_details_raw = $_POST['service_details'] ?? '[]';
+
 $order_id = 'KOS-' . time();
 $deadline = date('d M, H:i', strtotime('+1 day')) . ' WIB';
 
@@ -238,7 +241,8 @@ ob_start();
                     'id_room': '<?= $id_room ?>',
                     'total_price': '<?= $total_price ?>',
                     'check_in': '<?= $start_date ?>',
-                    'check_out': '<?= $end_date ?>'
+                    'check_out': '<?= $end_date ?>',
+                    'service_details': <?= $service_details_raw ?>
                 })
             })
             .then(response => response.json())

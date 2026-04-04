@@ -183,6 +183,8 @@ ob_start();
                 </div>
 
                 <form action="payment.php" method="POST" class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="hidden" name="service_details" value='<?= json_encode($detail_services) ?>'>
+                    
                     <input type="hidden" name="id_room" value="<?= $id_room ?>">
                     <input type="hidden" name="total_price" value="<?= $grand_total ?>">
                     <input type="hidden" name="start_date" value="<?= $d1->format('d M Y') ?>">

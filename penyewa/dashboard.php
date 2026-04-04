@@ -219,7 +219,7 @@ ob_start();
 
                         <div class="mt-auto pt-2">
                             <?php if ($is_available): ?>
-                                <a href="transaction/show.php?id=<?= $room['id'] ?>" class="block text-center bg-primary text-white hover:bg-primary-dark py-2.5 rounded-xl font-black text-sm transition-all shadow-lg shadow-blue-100/50">
+                                <a href="transactions/show.php?id=<?= $room['id'] ?>" class="block text-center bg-primary text-white hover:bg-primary-dark py-2.5 rounded-xl font-black text-sm transition-all shadow-lg shadow-blue-100/50">
                                     Lihat Detail
                                 </a>
                             <?php else: ?>
