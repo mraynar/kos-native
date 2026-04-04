@@ -39,9 +39,17 @@
                     <i class="fas fa-users"></i>
                     <span>Pengguna</span>
                 </a>
+                <a href="pegawai.php" class="<?= $pegawaiactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                    <span>Pegawai</span>
+                </a>
                 <a href="list-pesanan.php" class="<?= $pesananactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
                     <i class="fas fa-file-invoice"></i>
                     <span>Pesanan</span>
+                </a>
+                <a href="assign-task.php" class="<?= $taskactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>Assign Task</span>
                 </a>
                 <!-- <a href="#" class="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
                     <i class="fas fa-cog"></i>

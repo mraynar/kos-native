@@ -19,7 +19,6 @@ if ($result->num_rows == 0) {
 $data = $result->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     $status = $_POST['status'];
     $room_type_id = $_POST['room_type_id'];
     $gender_type  = $_POST['gender_type'];

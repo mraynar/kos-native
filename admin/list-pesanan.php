@@ -64,7 +64,6 @@ ob_start();
         </thead>
         <tbody>
             <?php
-
             if ($result->num_rows > 0) {
                 $no = 1;
                 while ($row = $result->fetch_assoc()) {
@@ -77,9 +76,6 @@ ob_start();
                     echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['check_out']) . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2'>Rp" . number_format($row['total_price'], 0, ',', '.') . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2'><span class='px-2 py-1 rounded text-sm " . ($row['status'] === 'paid' ? 'bg-green-200 text-green-800' : ($row['status'] === 'pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800')) . "'>" . htmlspecialchars($row['status']) . "</span></td>";
-                    // echo "<td class='border border-gray-300 px-4 py-2 flex gap-2 justify-center'>";
-                    // echo "<a href='edit-properti.php?id=" . htmlspecialchars($row['id']) . "' class='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm w-16 text-center'>Edit</a>";
-                    // echo "</td>";
                     echo "</tr>";
                 }
             } else {

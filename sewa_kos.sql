@@ -1,3 +1,5 @@
+drop database sewa_kos;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -26,6 +28,10 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `additional_services`
 --
+
+create database sewa_kos;
+
+use sewa_kos;
 
 CREATE TABLE `additional_services` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -342,8 +348,60 @@ INSERT INTO `users` (`id`, `name`, `nickname`, `full_name_ktp`, `email`, `addres
 (10, 'fahmi', 'fahmi', 'fahmi zaki ahmad', 'fahmi@gmail.com', 'Jalan Simo Gunung Gang 5', '0888819929', NULL, '$2y$10$S8kBpYVu7W.K/JssHlM4guSrdv4aNBIEMcZtohW3ag875XY7Tj71u', 'ktp_10.jpg', 'selfie_10.jpg', 'verified', 'penyewa', 'Laki-laki', '2020-03-23', NULL, NULL, NULL);
 
 --
--- Indexes for dumped tables
+-- Table structure for table `employees`
 --
+
+CREATE TABLE employees (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT UNSIGNED NULL,
+  employee_code VARCHAR(50) NOT NULL UNIQUE,
+  full_name VARCHAR(255) NOT NULL,
+  position VARCHAR(100) NOT NULL,
+  salary INT,
+  phone VARCHAR(20),
+  address TEXT,
+  hire_date DATE,
+  status ENUM('active','inactive') DEFAULT 'active',
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL
+);
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `employees` 
+(`user_id`, `employee_code`, `full_name`, `position`, `salary`, `phone`, `address`, `hire_date`, `status`, `created_at`, `updated_at`) 
+VALUES
+(2, 'EMP-001', 'Budi Santoso', 'Admin Operasional', 4000000, '081234567890', 'Bandung', '2024-01-10', 'active', NOW(), NOW()),
+(NULL, 'EMP-002', 'Siti Aminah', 'Cleaning Service', 2500000, '081234567891', 'Bandung', '2024-03-15', 'active', NOW(), NOW()),
+(NULL, 'EMP-003', 'Joko Prasetyo', 'Penjaga Kos', 3000000, '081234567892', 'Bandung', '2023-11-01', 'active', NOW(), NOW()),
+(NULL, 'EMP-004', 'Andi Wijaya', 'Maintenance', 3200000, '081234567893', 'Bandung', '2024-02-20', 'active', NOW(), NOW()),
+(NULL, 'EMP-005', 'Dewi Lestari', 'Cleaning Service', 2500000, '081234567894', 'Bandung', '2024-04-05', 'inactive', NOW(), NOW());
+
+CREATE TABLE maintenance_tasks (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    room_id BIGINT UNSIGNED NOT NULL,
+    employee_id BIGINT UNSIGNED NOT NULL,
+    issue TEXT,
+    status ENUM('pending','on_progress','done') DEFAULT 'pending',
+    assigned_at TIMESTAMP NULL,
+    completed_at TIMESTAMP NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL
+);
+
+INSERT INTO maintenance_tasks (room_id, employee_id, status, issue, created_at) VALUES
+(1, 2, 'pending', 'AC tidak dingin', NOW() - INTERVAL 3 DAY),
+(2, 3, 'on_progress', 'Lampu kamar mati', NOW() - INTERVAL 2 DAY),
+(3, 1, 'done', 'Keran bocor sudah diperbaiki', NOW() - INTERVAL 5 DAY),
+(4, 2, 'pending', 'Pintu kamar rusak', NOW() - INTERVAL 1 DAY),
+(5, 4, 'on_progress', 'Kamar bau lembab', NOW() - INTERVAL 6 HOUR),
+(1, 3, 'done', 'Kasur diganti baru', NOW() - INTERVAL 7 DAY),
+(2, 1, 'pending', 'Jendela tidak bisa ditutup', NOW() - INTERVAL 8 HOUR),
+(3, 4, 'on_progress', 'Air kamar mandi kecil', NOW() - INTERVAL 2 DAY),
+(4, 1, 'done', 'Stop kontak rusak sudah diperbaiki', NOW() - INTERVAL 4 DAY),
+(5, 2, 'pending', 'Dinding retak kecil', NOW() - INTERVAL 1 DAY);
 
 --
 -- Indexes for table `additional_services`
