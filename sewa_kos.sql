@@ -1,3 +1,8 @@
+drop database sewa_kos;
+
+create database sewa_kos;
+use sewa_kos;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -22,13 +27,21 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+drop table settings;
+CREATE TABLE settings (
+    `key` VARCHAR(100) PRIMARY KEY,
+    `value` TEXT
+);
+
+INSERT INTO settings (`key`, `value`) VALUES
+('site_title', 'Griya Asri Admin');
 
 --
 -- Table structure for table `additional_services`
 --
 
 CREATE TABLE `additional_services` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `service_name` varchar(255) NOT NULL,
   `duration_type` enum('Harian','Mingguan','Bulanan') NOT NULL DEFAULT 'Mingguan',
   `service_price` int(11) NOT NULL,
@@ -130,31 +143,17 @@ CREATE TABLE `cache_locks` (
 -- Table structure for table `employees`
 --
 
-CREATE TABLE `employees` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `employee_code` varchar(50) NOT NULL,
-  `full_name` varchar(255) NOT NULL,
-  `position` varchar(100) NOT NULL,
-  `salary` int(11) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `hire_date` date DEFAULT NULL,
-  `status` enum('active','inactive') DEFAULT 'active',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE employees (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    employee_code VARCHAR(20) UNIQUE,
+    full_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
+    status ENUM('active','inactive') DEFAULT 'active'
+);
 
 --
 -- Dumping data for table `employees`
 --
-
-INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `full_name`, `position`, `salary`, `phone`, `address`, `hire_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'EMP-001', 'Budi Santoso', 'Admin Operasional', 4000000, '081234567890', 'Bandung', '2024-01-10', 'active', '2026-04-04 16:23:03', '2026-04-04 16:23:03'),
-(2, NULL, 'EMP-002', 'Siti Aminah', 'Cleaning Service', 2500000, '081234567891', 'Bandung', '2024-03-15', 'active', '2026-04-04 16:23:03', '2026-04-04 16:23:03'),
-(3, NULL, 'EMP-003', 'Joko Prasetyo', 'Penjaga Kos', 3000000, '081234567892', 'Bandung', '2023-11-01', 'active', '2026-04-04 16:23:03', '2026-04-04 16:23:03'),
-(4, NULL, 'EMP-004', 'Andi Wijaya', 'Maintenance', 3200000, '081234567893', 'Bandung', '2024-02-20', 'active', '2026-04-04 16:23:03', '2026-04-04 16:23:03'),
-(5, NULL, 'EMP-005', 'Dewi Lestari', 'Cleaning Service', 2500000, '081234567894', 'Bandung', '2024-04-05', 'inactive', '2026-04-04 16:23:03', '2026-04-04 16:23:03');
 
 -- --------------------------------------------------------
 
@@ -206,40 +205,6 @@ CREATE TABLE `job_batches` (
   `created_at` int(11) NOT NULL,
   `finished_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `maintenance_tasks`
---
-
-CREATE TABLE `maintenance_tasks` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `room_id` bigint(20) UNSIGNED NOT NULL,
-  `employee_id` bigint(20) UNSIGNED NOT NULL,
-  `issue` text DEFAULT NULL,
-  `status` enum('pending','on_progress','done') DEFAULT 'pending',
-  `assigned_at` timestamp NULL DEFAULT NULL,
-  `completed_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `maintenance_tasks`
---
-
-INSERT INTO `maintenance_tasks` (`id`, `room_id`, `employee_id`, `issue`, `status`, `assigned_at`, `completed_at`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'AC tidak dingin', 'pending', NULL, NULL, '2026-04-01 16:23:03', NULL),
-(2, 2, 3, 'Lampu kamar mati', 'on_progress', NULL, NULL, '2026-04-02 16:23:03', NULL),
-(3, 3, 1, 'Keran bocor sudah diperbaiki', 'done', NULL, NULL, '2026-03-30 16:23:03', NULL),
-(4, 4, 2, 'Pintu kamar rusak', 'pending', NULL, NULL, '2026-04-03 16:23:03', NULL),
-(5, 5, 4, 'Kamar bau lembab', 'on_progress', NULL, NULL, '2026-04-04 10:23:03', NULL),
-(6, 1, 3, 'Kasur diganti baru', 'done', NULL, NULL, '2026-03-28 16:23:03', NULL),
-(7, 2, 1, 'Jendela tidak bisa ditutup', 'pending', NULL, NULL, '2026-04-04 08:23:03', NULL),
-(8, 3, 4, 'Air kamar mandi kecil', 'on_progress', NULL, NULL, '2026-04-02 16:23:03', NULL),
-(9, 4, 1, 'Stop kontak rusak sudah diperbaiki', 'done', NULL, NULL, '2026-03-31 16:23:03', NULL),
-(10, 5, 2, 'Dinding retak kecil', 'pending', NULL, NULL, '2026-04-03 16:23:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -428,8 +393,8 @@ INSERT INTO `users` (`id`, `name`, `nickname`, `full_name_ktp`, `email`, `addres
 --
 -- Indexes for table `additional_services`
 --
-ALTER TABLE `additional_services`
-  ADD PRIMARY KEY (`id`);
+-- ALTER TABLE `additional_services`
+--   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `bookings`
@@ -464,9 +429,9 @@ ALTER TABLE `cache_locks`
 --
 -- Indexes for table `employees`
 --
-ALTER TABLE `employees`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `employee_code` (`employee_code`);
+-- ALTER TABLE `employees`
+--   ADD PRIMARY KEY (`id`),
+--   ADD UNIQUE KEY `employee_code` (`employee_code`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -486,12 +451,6 @@ ALTER TABLE `jobs`
 -- Indexes for table `job_batches`
 --
 ALTER TABLE `job_batches`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `maintenance_tasks`
---
-ALTER TABLE `maintenance_tasks`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -571,8 +530,8 @@ ALTER TABLE `jobs`
 --
 -- AUTO_INCREMENT for table `maintenance_tasks`
 --
-ALTER TABLE `maintenance_tasks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+-- ALTER TABLE `maintenance_tasks`
+--   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
