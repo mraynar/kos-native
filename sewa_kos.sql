@@ -1,14 +1,9 @@
-drop database sewa_kos;
-
-create database sewa_kos;
-use sewa_kos;
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 04, 2026 at 06:57 PM
+-- Generation Time: Apr 05, 2026 at 05:20 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -27,21 +22,38 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-drop table settings;
-CREATE TABLE settings (
-    `key` VARCHAR(100) PRIMARY KEY,
-    `value` TEXT
-);
 
-INSERT INTO settings (`key`, `value`) VALUES
-('site_title', 'Griya Asri Admin');
+--
+-- Table structure for table `absensi`
+--
+
+CREATE TABLE `absensi` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `tanggal` date NOT NULL,
+  `jam_masuk` time NOT NULL,
+  `foto_bukti` varchar(255) NOT NULL,
+  `status` enum('hadir','izin','alpha') DEFAULT 'hadir',
+  `keterangan` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `absensi`
+--
+
+INSERT INTO `absensi` (`id`, `user_id`, `tanggal`, `jam_masuk`, `foto_bukti`, `status`, `keterangan`, `created_at`) VALUES
+(1, 2, '2026-04-05', '12:39:54', 'ABSEN_1775385594_2.jpg', 'hadir', '', '2026-04-05 10:39:54'),
+(2, 12, '2026-04-05', '15:59:10', 'ABSEN_1775397550_12.jpg', 'hadir', '', '2026-04-05 13:59:10');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `additional_services`
 --
 
 CREATE TABLE `additional_services` (
-  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `service_name` varchar(255) NOT NULL,
   `duration_type` enum('Harian','Mingguan','Bulanan') NOT NULL DEFAULT 'Mingguan',
   `service_price` int(11) NOT NULL,
@@ -82,9 +94,17 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `user_id`, `room_id`, `check_in`, `check_out`, `total_price`, `status`, `payment_token`, `created_at`, `updated_at`) VALUES
-('KOS-1774337153', 8, 20, '2026-03-24', '2026-05-31', 7620000, 'paid', '85645f70-0020-4722-8d52-b77d9158ad1e', '2026-03-24 07:25:53', '2026-03-24 07:25:53'),
-('KOS-1774337387', 10, 11, '2026-03-24', '2026-06-30', 8870000, 'paid', '505dc994-e993-47f8-bb1b-d2681c9ad477', '2026-03-24 07:29:47', '2026-03-24 07:29:47'),
-('KOS-1775320791', 8, 19, '2026-04-04', '2026-04-30', 4340000, 'paid', '875d0d1d-4e56-4710-ae23-375d9fc080b4', '2026-04-04 16:39:51', '2026-04-04 16:39:51');
+('KOS-1775394265', 8, 1, '2026-04-05', '2026-04-30', 1965000, 'paid', 'ad45b3c6-e3a5-4170-8a74-6e39495c6bc9', '2026-01-15 03:00:00', '2026-04-05 13:04:25'),
+('KOS-1775394352', 8, 6, '2026-04-05', '2026-04-30', 2515000, 'paid', 'ded571d3-81be-4e3d-8648-8dd168d75281', '2026-02-10 07:00:00', '2026-04-05 13:05:52'),
+('KOS-1775394409', 8, 11, '2026-04-05', '2026-05-31', 6140000, 'paid', '983ea730-972f-41f6-ac96-0da97a361189', '2026-03-20 02:00:00', '2026-04-05 13:06:49'),
+('KOS-1775394448', 8, 16, '2026-04-05', '2026-05-31', 7940000, 'paid', '1f8f1deb-9d34-44e0-a908-6184a8033471', '2026-04-01 04:00:00', '2026-04-05 13:07:28'),
+('KOS-1775395272', 8, 4, '2026-04-06', '2026-04-30', 1170000, 'paid', '356f2fa0-7152-4d7e-80a2-4c0eae3e7444', '2026-04-08 08:30:00', '2026-04-05 13:21:12'),
+('KOS-1775395314', 8, 9, '2026-04-07', '2026-04-30', 2195000, 'paid', 'c7d62ad0-8c3c-44c0-842c-5d63220d6ad9', '2026-04-15 03:45:00', '2026-04-05 13:21:54'),
+('KOS-1775396707', 8, 8, '2026-04-05', '2026-04-08', 300000, 'paid', '04d0561f-135c-444e-a142-cbd65eff9488', '2026-04-22 06:20:00', '2026-04-05 13:45:07'),
+('KOS-1775396749', 8, 14, '2026-04-05', '2026-04-06', 125000, 'paid', '03ed74ee-f686-4d4b-a545-ebd1b9971170', '2026-04-02 01:00:00', '2026-04-05 13:45:49'),
+('KOS-1775396785', 8, 14, '2026-04-05', '2026-04-06', 100000, 'paid', '2858f42b-9f02-4d09-b3ec-eb09e304806c', '2026-04-03 09:00:00', '2026-04-05 13:46:25'),
+('KOS-1775396824', 8, 17, '2026-04-05', '2026-04-12', 1155000, 'paid', 'c12e4f5b-f0c4-4543-8355-f8470852b281', '2026-04-04 03:00:00', '2026-04-05 13:47:04'),
+('KOS-1775396874', 8, 19, '2026-04-05', '2026-04-06', 150000, 'paid', '6ae07637-c20d-4159-9864-732c74253e44', '2026-04-05 06:00:00', '2026-04-05 13:47:54');
 
 -- --------------------------------------------------------
 
@@ -109,9 +129,26 @@ CREATE TABLE `booking_service` (
 --
 
 INSERT INTO `booking_service` (`id`, `booking_id`, `additional_service_id`, `quantity`, `price_at_purchase`, `service_status`, `employee_id`, `created_at`, `updated_at`) VALUES
-(1, 'KOS-1775320791', 1, 26, 25000, 'pending', NULL, '2026-04-04 16:39:51', '2026-04-04 16:39:51'),
-(2, 'KOS-1775320791', 2, 3, 40000, 'pending', NULL, '2026-04-04 16:39:51', '2026-04-04 16:39:51'),
-(3, 'KOS-1775320791', 3, 3, 40000, 'pending', NULL, '2026-04-04 16:39:51', '2026-04-04 16:39:51');
+(4, 'KOS-1775394265', 1, 25, 25000, 'on_progress', 12, '2026-04-05 13:04:25', '2026-04-05 13:04:25'),
+(5, 'KOS-1775394265', 2, 3, 40000, 'on_progress', 12, '2026-04-05 13:04:25', '2026-04-05 13:04:25'),
+(6, 'KOS-1775394265', 3, 3, 40000, 'pending', NULL, '2026-04-05 13:04:25', '2026-04-05 13:04:25'),
+(7, 'KOS-1775394352', 1, 25, 25000, 'on_progress', 12, '2026-04-05 13:05:52', '2026-04-05 13:05:52'),
+(8, 'KOS-1775394352', 2, 3, 40000, 'on_progress', 12, '2026-04-05 13:05:52', '2026-04-05 13:05:52'),
+(9, 'KOS-1775394352', 3, 3, 40000, 'pending', NULL, '2026-04-05 13:05:52', '2026-04-05 13:05:52'),
+(10, 'KOS-1775394409', 1, 56, 25000, 'on_progress', 12, '2026-04-05 13:06:49', '2026-04-05 13:06:49'),
+(11, 'KOS-1775394409', 2, 8, 40000, 'on_progress', 12, '2026-04-05 13:06:49', '2026-04-05 13:06:49'),
+(12, 'KOS-1775394409', 3, 8, 40000, 'pending', NULL, '2026-04-05 13:06:49', '2026-04-05 13:06:49'),
+(13, 'KOS-1775394448', 1, 56, 25000, 'on_progress', 12, '2026-04-05 13:07:28', '2026-04-05 13:07:28'),
+(14, 'KOS-1775394448', 2, 8, 40000, 'on_progress', 12, '2026-04-05 13:07:28', '2026-04-05 13:07:28'),
+(15, 'KOS-1775394448', 3, 8, 40000, 'pending', NULL, '2026-04-05 13:07:28', '2026-04-05 13:07:28'),
+(16, 'KOS-1775395272', 3, 3, 40000, 'pending', NULL, '2026-04-05 13:21:12', '2026-04-05 13:21:12'),
+(17, 'KOS-1775395314', 1, 23, 25000, 'on_progress', 12, '2026-04-05 13:21:54', '2026-04-05 13:21:54'),
+(18, 'KOS-1775395314', 3, 3, 40000, 'pending', NULL, '2026-04-05 13:21:54', '2026-04-05 13:21:54'),
+(19, 'KOS-1775396707', 1, 3, 25000, 'on_progress', 12, '2026-04-05 13:45:07', '2026-04-05 13:45:07'),
+(20, 'KOS-1775396749', 1, 1, 25000, 'on_progress', 12, '2026-04-05 13:45:49', '2026-04-05 13:45:49'),
+(21, 'KOS-1775396824', 1, 7, 25000, 'on_progress', 12, '2026-04-05 13:47:04', '2026-04-05 13:47:04'),
+(22, 'KOS-1775396824', 2, 1, 40000, 'on_progress', 12, '2026-04-05 13:47:04', '2026-04-05 13:47:04'),
+(23, 'KOS-1775396824', 3, 1, 40000, 'pending', NULL, '2026-04-05 13:47:04', '2026-04-05 13:47:04');
 
 -- --------------------------------------------------------
 
@@ -140,71 +177,30 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employees`
+-- Table structure for table `maintenance_requests`
 --
 
-CREATE TABLE employees (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    employee_code VARCHAR(20) UNIQUE,
-    full_name VARCHAR(255) NOT NULL,
-    phone VARCHAR(20),
-    status ENUM('active','inactive') DEFAULT 'active'
-);
+CREATE TABLE `maintenance_requests` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `booking_id` varchar(50) NOT NULL,
+  `issue_name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `location` varchar(100) NOT NULL,
+  `status` enum('pending','on_progress','done') DEFAULT 'pending',
+  `employee_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `employees`
+-- Dumping data for table `maintenance_requests`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jobs`
---
-
-CREATE TABLE `jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) NOT NULL,
-  `payload` longtext NOT NULL,
-  `attempts` tinyint(3) UNSIGNED NOT NULL,
-  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
-  `available_at` int(10) UNSIGNED NOT NULL,
-  `created_at` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `job_batches`
---
-
-CREATE TABLE `job_batches` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `total_jobs` int(11) NOT NULL,
-  `pending_jobs` int(11) NOT NULL,
-  `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext NOT NULL,
-  `options` mediumtext DEFAULT NULL,
-  `cancelled_at` int(11) DEFAULT NULL,
-  `created_at` int(11) NOT NULL,
-  `finished_at` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `maintenance_requests` (`id`, `user_id`, `booking_id`, `issue_name`, `description`, `photo`, `location`, `status`, `employee_id`, `created_at`) VALUES
+(4, 8, 'KOS-1775394352', 'Shower tidak menyala', 'Air di shower tidak keluar', 'MAINT_1775401488_4.jpg', 'Kamar S01', 'done', 12, '2026-04-05 14:25:27'),
+(5, 8, 'KOS-1775394448', 'AC Tidak Dingin', 'AC mengalami kebocoran', 'ISSUE_1775401547_8.jpg', 'Kamar L01', 'on_progress', 12, '2026-04-05 15:05:47'),
+(6, 8, 'KOS-1775396824', 'TV tidak bisa menyala', 'TV Rusak tidak dapat terhubung dengan internet', 'MAINT_1775402006_6.jpg', 'Kamar L02', 'done', 12, '2026-04-05 15:06:20');
 
 -- --------------------------------------------------------
 
@@ -272,26 +268,26 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `gender_type`, `price`, `rating`, `facilities`, `area_size`, `is_electric_included`, `is_water_included`, `room_rules`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'H01', 'Putra', 800000, 4.7, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(1, 1, 'H01', 'Putra', 800000, 4.7, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (2, 1, 'H02', 'Putri', 800000, 4.0, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (3, 1, 'H03', 'Putra', 800000, 4.4, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(4, 1, 'H04', 'Putri', 800000, 4.9, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(4, 1, 'H04', 'Putri', 800000, 4.9, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (5, 1, 'H05', 'Putra', 800000, 4.3, 'Bed, Lemari, Meja Belajar, Kipas Angin, WiFi', '3x4', 0, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(6, 2, 'S01', 'Putra', 1200000, 5.0, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(6, 2, 'S01', 'Putra', 1200000, 5.0, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (7, 2, 'S02', 'Putri', 1200000, 4.5, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(8, 2, 'S03', 'Putra', 1200000, 4.7, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(9, 2, 'S04', 'Putri', 1200000, 4.7, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(8, 2, 'S03', 'Putra', 1200000, 4.7, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(9, 2, 'S04', 'Putri', 1200000, 4.7, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (10, 2, 'S05', 'Putra', 1200000, 4.7, 'Bed, Lemari, Meja Belajar, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (11, 3, 'N01', 'Putra', 1500000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (12, 3, 'N02', 'Putri', 1500000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (13, 3, 'N03', 'Putra', 1500000, 4.4, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(14, 3, 'N04', 'Putri', 1500000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(14, 3, 'N04', 'Putri', 1500000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (15, 3, 'N05', 'Putra', 1500000, 4.0, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, WiFi', '3x4', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(16, 4, 'L01', 'Putra', 2000000, 4.4, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(17, 4, 'L02', 'Putri', 2000000, 4.3, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(16, 4, 'L01', 'Putra', 2000000, 4.4, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
+(17, 4, 'L02', 'Putri', 2000000, 4.3, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (18, 4, 'L03', 'Putra', 2000000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (19, 4, 'L04', 'Putri', 2000000, 4.1, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
-(20, 4, 'L05', 'Putra', 2000000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'occupied', '2026-03-08 00:49:15', '2026-03-08 00:49:15');
+(20, 4, 'L05', 'Putra', 2000000, 4.6, 'Bed Queen, Lemari Besar, Meja Kerja, AC, Kamar Mandi Dalam, TV, WiFi', '4x5', 1, 1, '1. Dilarang membawa lawan jenis ke dalam kamar.\n                    \n2. Maksimal bertamu jam 22.00 WIB.\n                    \n3. Menjaga kebersihan dan ketenangan.', 'available', '2026-03-08 00:49:15', '2026-03-08 00:49:15');
 
 -- --------------------------------------------------------
 
@@ -325,6 +321,30 @@ INSERT INTO `room_types` (`id`, `name`, `image`, `description`, `facilities`, `b
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `service_reports`
+--
+
+CREATE TABLE `service_reports` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `booking_service_id` bigint(20) UNSIGNED NOT NULL,
+  `report_date` date NOT NULL,
+  `proof_photo` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service_reports`
+--
+
+INSERT INTO `service_reports` (`id`, `booking_service_id`, `report_date`, `proof_photo`, `created_at`) VALUES
+(3, 4, '2026-04-05', 'LAPOR_4_1775401095.jpg', '2026-04-05 14:58:15'),
+(4, 7, '2026-04-05', 'LAPOR_7_1775401112.jpg', '2026-04-05 14:58:32'),
+(5, 10, '2026-04-05', 'LAPOR_10_1775402050.jpg', '2026-04-05 15:14:10'),
+(6, 22, '2026-04-05', 'LAPOR_22_1775402241.jpg', '2026-04-05 15:17:21');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -346,6 +366,24 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 ('RDN6zqrbDqsbJ75VgPv1paWa9nbkD3q2g6BiJ8bS', 5, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.3 Safari/605.1.15', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiN0MxVXRDcnRPTGY5d2FDVmlWb3RUZmNXMGQydUtxNzFVeW9LVTU2ciI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly9zZXdhLWtvcy50ZXN0L2thbWFyLzEiO3M6NToicm91dGUiO3M6MTA6ImthbWFyLnNob3ciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo1O30=', 1772985881),
 ('sArZQ1gy9rpj6YkhNXHnbxB74dS3VpqCuUkumUs6', NULL, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.3 Safari/605.1.15', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMXJxQ2FNNlJsMkQ5MzNDYXNscVJoRVEwN3Y5ZnBsZ0xWNExKd0pueCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly9zZXdhLWtvcy50ZXN0L2thbWFyL2Rhc2hib2FyZC5waHAiO3M6NToicm91dGUiO3M6MTA6ImthbWFyLnNob3ciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1774196427),
 ('YJabUPWGFlfSvXt6TgiTvqYryY0faZUxDvjepjt7', NULL, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.3 Safari/605.1.15', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiY05JMlpodUlRMWk4YU9EMEhhSkdjRzVSejJhbFI5SEZLWVJqT0NPMSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjA6Imh0dHA6Ly9zZXdhLWtvcy50ZXN0IjtzOjU6InJvdXRlIjtzOjQ6ImhvbWUiO319', 1773127856);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `key` varchar(100) NOT NULL,
+  `value` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`key`, `value`) VALUES
+('site_title', 'Griya Asri Kos');
 
 -- --------------------------------------------------------
 
@@ -383,18 +421,24 @@ INSERT INTO `users` (`id`, `name`, `nickname`, `full_name_ktp`, `email`, `addres
 (2, 'Pegawai User', 'pegawai', NULL, 'pegawai@gmail.com', NULL, '08123456782', NULL, '$2y$12$cGctb3VdiPPrKNz9JgBl2.BJKuGBYKg9xdFJBpwNTHs2bxIcXgKSO', NULL, NULL, NULL, 'pegawai', NULL, NULL, NULL, '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (3, 'Penyewa User', 'penyewa', NULL, 'penyewa@gmail.com', NULL, '08123456783', NULL, '$2y$12$zecB7rAOWvLRUX4AnPAHMexniy0trt54ncBXKZAysXt9uSuJtBIBa', NULL, NULL, NULL, 'penyewa', NULL, NULL, NULL, '2026-03-08 00:49:15', '2026-03-08 00:49:15'),
 (8, 'hammam', 'hammam', 'Muhammad Raynar Hammam', 'hammam@gmail.com', 'Manukan Luhur', '08953023232', NULL, '$2y$10$q6WGQriIEhQflX1TxMRRoOaevWXkItKrvK8w4n65BMD6WBZG1l5T2', 'ktp_8.jpg', 'selfie_8.jpg', 'verified', 'penyewa', 'Laki-laki', '2006-05-23', NULL, NULL, NULL),
-(9, 'ronaldo', 'ronaldo', 'Cristiano Ronaldo', 'ronaldo@gmail.com', 'Portugal Gang 7', '08953302323', NULL, '$2y$10$pASa0DhTQHD3V1QBIugxq.rcsL4Cgf0e28hkrFlHX5uxa20C7/Jv.', 'ktp_9.jpg', 'selfie_9.jpg', 'verified', 'penyewa', 'Laki-laki', '1997-05-23', NULL, NULL, NULL),
-(10, 'fahmi', 'fahmi', 'fahmi zaki ahmad', 'fahmi@gmail.com', 'Jalan Simo Gunung Gang 5', '0888819929', NULL, '$2y$10$S8kBpYVu7W.K/JssHlM4guSrdv4aNBIEMcZtohW3ag875XY7Tj71u', 'ktp_10.jpg', 'selfie_10.jpg', 'verified', 'penyewa', 'Laki-laki', '2020-03-23', NULL, NULL, NULL);
+(12, 'fahis', 'fahis', NULL, 'fahis@gmail.com', NULL, '039239293', NULL, '$2y$10$YD1kQ1ahFFMUH2Ev7GBzReVRjt0mmzXAeALjiA2ITiWEI7meS9XIu', NULL, NULL, NULL, 'pegawai', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `absensi`
+--
+ALTER TABLE `absensi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `additional_services`
 --
--- ALTER TABLE `additional_services`
---   ADD PRIMARY KEY (`id`);
+ALTER TABLE `additional_services`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `bookings`
@@ -427,31 +471,13 @@ ALTER TABLE `cache_locks`
   ADD KEY `cache_locks_expiration_index` (`expiration`);
 
 --
--- Indexes for table `employees`
+-- Indexes for table `maintenance_requests`
 --
--- ALTER TABLE `employees`
---   ADD PRIMARY KEY (`id`),
---   ADD UNIQUE KEY `employee_code` (`employee_code`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
+ALTER TABLE `maintenance_requests`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indexes for table `jobs`
---
-ALTER TABLE `jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `jobs_queue_index` (`queue`);
-
---
--- Indexes for table `job_batches`
---
-ALTER TABLE `job_batches`
-  ADD PRIMARY KEY (`id`);
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_booking_id` (`booking_id`),
+  ADD KEY `fk_maintenance_employee` (`employee_id`);
 
 --
 -- Indexes for table `migrations`
@@ -479,12 +505,25 @@ ALTER TABLE `room_types`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `service_reports`
+--
+ALTER TABLE `service_reports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `booking_service_id` (`booking_service_id`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sessions_user_id_index` (`user_id`),
   ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`key`);
 
 --
 -- Indexes for table `users`
@@ -498,6 +537,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `absensi`
+--
+ALTER TABLE `absensi`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `additional_services`
 --
 ALTER TABLE `additional_services`
@@ -507,31 +552,13 @@ ALTER TABLE `additional_services`
 -- AUTO_INCREMENT for table `booking_service`
 --
 ALTER TABLE `booking_service`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `employees`
+-- AUTO_INCREMENT for table `maintenance_requests`
 --
-ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `jobs`
---
-ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `maintenance_tasks`
---
--- ALTER TABLE `maintenance_tasks`
---   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `maintenance_requests`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -552,14 +579,26 @@ ALTER TABLE `room_types`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `service_reports`
+--
+ALTER TABLE `service_reports`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `absensi`
+--
+ALTER TABLE `absensi`
+  ADD CONSTRAINT `absensi_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `bookings`
@@ -576,10 +615,22 @@ ALTER TABLE `booking_service`
   ADD CONSTRAINT `booking_service_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `maintenance_requests`
+--
+ALTER TABLE `maintenance_requests`
+  ADD CONSTRAINT `fk_maintenance_employee` FOREIGN KEY (`employee_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `rooms`
 --
 ALTER TABLE `rooms`
   ADD CONSTRAINT `rooms_room_type_id_foreign` FOREIGN KEY (`room_type_id`) REFERENCES `room_types` (`id`);
+
+--
+-- Constraints for table `service_reports`
+--
+ALTER TABLE `service_reports`
+  ADD CONSTRAINT `service_reports_ibfk_1` FOREIGN KEY (`booking_service_id`) REFERENCES `booking_service` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
