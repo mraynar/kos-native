@@ -74,7 +74,7 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
                                 <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Mahasiswa</p>
                                 <p class="text-sm font-bold text-primary"><?= htmlspecialchars($nickname) ?></p>
                             </div>
-                            <a href="<?= strpos($_SERVER['PHP_SELF'], 'profile/index.php') !== false ? 'index.php' : 'profile/index.php' ?>" class="w-11 h-11 bg-slate-100 text-primary rounded-2xl flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
+                            <a href="/kos-native/penyewa/profile/index.php" class="w-11 h-11 bg-slate-100 text-primary rounded-2xl flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                                 <i class="fas fa-user-graduate text-lg"></i>
                             </a>
                         <?php else: ?>

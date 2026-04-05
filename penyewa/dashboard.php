@@ -9,7 +9,6 @@ $expired_query = mysqli_query($conn, "SELECT room_id FROM bookings WHERE status 
 if (mysqli_num_rows($expired_query) > 0) {
     while ($expired = mysqli_fetch_assoc($expired_query)) {
         $r_id = $expired['room_id'];
-        // Kembalikan kamar ke status available
         mysqli_query($conn, "UPDATE rooms SET status = 'available' WHERE id = '$r_id'");
     }
 }

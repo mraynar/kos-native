@@ -20,10 +20,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'penyewa') {
 
 if (isset($_GET['tab']) && $_GET['tab'] === 'history') {
     $user_id = $_SESSION['user_id'];
-    
-    // Ambil semua booking yang statusnya masih pending milik user
+
     $check_pending = mysqli_query($conn, "SELECT id FROM bookings WHERE user_id = '$user_id' AND status = 'pending'");
-    
+
     while ($booking = mysqli_fetch_assoc($check_pending)) {
         $order_id = $booking['id'];
 
@@ -56,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $gender = $_POST['gender'];
     $address = mysqli_real_escape_string($conn, $_POST['address']);
 
-    // Simulasi Nama File
     $ktp_name = "ktp_" . $user_id . ".jpg";
     $selfie_name = "selfie_" . $user_id . ".jpg";
 
@@ -120,6 +118,10 @@ ob_start();
                         <div class="flex items-center gap-4"><i class="fas fa-id-card text-sm"></i><span class="text-sm font-bold">Verification</span></div>
                         <i class="fas fa-chevron-right text-[10px] opacity-30"></i>
                     </a>
+                    <a href="?tab=report" class="flex items-center justify-between p-4 rounded-2xl transition-all group <?= $tab == 'report' ? 'bg-primary text-white shadow-lg' : 'hover:bg-slate-50 text-slate-600' ?>">
+                        <div class="flex items-center gap-4"><i class="fas fa-exclamation-triangle text-sm"></i><span class="text-sm font-bold">Lapor Masalah</span></div>
+                        <i class="fas fa-chevron-right text-[10px] opacity-30"></i>
+                    </a>
                     <a href="?tab=password" class="flex items-center justify-between p-4 rounded-2xl transition-all group <?= $tab == 'password' ? 'bg-primary text-white shadow-lg' : 'hover:bg-slate-50 text-slate-600' ?>">
                         <div class="flex items-center gap-4"><i class="fas fa-key text-sm"></i><span class="text-sm font-bold">Change Password</span></div>
                         <i class="fas fa-chevron-right text-[10px] opacity-30"></i>
@@ -141,6 +143,9 @@ ob_start();
                         break;
                     case 'verification':
                         include 'account-verification.php';
+                        break;
+                    case 'report':
+                        include 'room-report.php';
                         break;
                     case 'password':
                         include 'change-password.php';

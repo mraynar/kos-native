@@ -1,7 +1,6 @@
 <?php
 require_once '../../config/database.php';
 
-// Debugging Aktif
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -27,7 +26,6 @@ function parseTanggal($tgl)
 {
     $d = DateTime::createFromFormat('d/m/Y', $tgl);
     if ($d && $d->format('d/m/Y') === $tgl) return $d;
-    // Fallback jika format ISO Y-m-d
     return new DateTime($tgl);
 }
 

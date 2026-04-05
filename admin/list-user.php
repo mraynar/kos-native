@@ -3,10 +3,10 @@ include '../config/database.php';
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM users WHERE role = 'penyewa'";
 
 if (!empty($search)) {
-    $sql .= " WHERE full_name_ktp LIKE ? OR email LIKE ? OR phone LIKE ?";
+    $sql .= " AND (full_name_ktp LIKE ? OR email LIKE ? OR phone LIKE ?)";
 }
 
 $stmt = $conn->prepare($sql);
@@ -23,69 +23,81 @@ ob_start();
 ?>
 
 <div class="">
-    <div class="header-content flex justify-between mb-4 align-middle">
-        <h1 class="text-2xl font-bold text-gray-800">Daftar Pengguna</h1>
-        <?php if (!empty($search)): ?>
-            <p class="text-sm text-gray-600">
-                Hasil pencarian untuk: <b><?= htmlspecialchars($search) ?></b>
-            </p>
-        <?php endif; ?>
-        <form method="GET" class="mb-4 flex gap-2">
+    <div class="header-content flex justify-between mb-4 items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Daftar Pengguna (Penyewa)</h1>
+            <?php if (!empty($search)): ?>
+                <p class="text-sm text-gray-600 mt-1">
+                    Hasil pencarian untuk: <b><?= htmlspecialchars($search) ?></b>
+                </p>
+            <?php endif; ?>
+        </div>
+
+        <form method="GET" class="flex gap-2">
             <input
                 type="text"
                 name="search"
-                placeholder="Cari ID atau Nama..."
-                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
-                class="border px-3 py-2 rounded w-64">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                placeholder="Cari Nama, Email, atau HP..."
+                value="<?= htmlspecialchars($search) ?>"
+                class="border px-4 py-2 rounded-lg w-64 focus:ring-2 focus:ring-blue-500 outline-none text-sm shadow-sm">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold transition-all shadow-md">
                 Cari
             </button>
         </form>
     </div>
-    <table class="w-full border-collapse border border-gray-300">
-        <thead class="bg-blue-600 text-white">
-            <tr>
-                <th class="border border-gray-300 px-4 py-2 text-center">No</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">Nama</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">Email</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">Alamat</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">No Telp</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">TTL</th>
-                <th class="border border-gray-300 px-4 py-2 text-center">Status</th>
-                <!-- <th class="border border-gray-300 px-4 py-2 text-center">Aksi</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            <?php
 
-            if ($result->num_rows > 0) {
-                $no = 1;
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr class='hover:bg-gray-100 border-b border-gray-300'>";
-                    echo "<td class='border border-gray-300 px-4 py-2 text-center'>" . $no++ . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['full_name_ktp'] ?? '') . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['email'] ?? '') . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['address'] ?? '') . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['phone'] ?? '') . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['birth_date'] ?? '') . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'><span class='px-2 py-1 rounded text-sm " . ($row['is_verified'] === 'verified' ? 'bg-green-200 text-green-800' : ($row['is_verified'] === 'pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800')) . "'>" . htmlspecialchars($row['is_verified'] ?? '') . "</span></td>";
-                    // echo "<td class='border border-gray-300 px-4 py-2 flex gap-2 justify-center'>";
-                    // echo "<a href='edit-properti.php?id=" . htmlspecialchars($row['id']) . "' class='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm w-16 text-center'>Edit</a>";
-                    // echo "</td>";
-                    echo "</tr>";
+    <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-100 text-left">
+        <table class="w-full border-collapse">
+            <thead class="bg-blue-600 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-center text-sm font-semibold uppercase tracking-wider">No</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Nama (KTP)</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Alamat</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">No Telp</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Tgl Lahir</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold uppercase tracking-wider">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <?php
+                if ($result->num_rows > 0) {
+                    $no = 1;
+                    while ($row = $result->fetch_assoc()) {
+                ?>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-center text-sm text-gray-600"><?= $no++ ?></td>
+                            <td class="px-6 py-4 text-sm font-bold text-gray-900"><?= htmlspecialchars($row['full_name_ktp'] ?? 'Belum Verifikasi') ?></td>
+                            <td class="px-6 py-4 text-sm text-gray-600"><?= htmlspecialchars($row['email'] ?? '-') ?></td>
+                            <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate"><?= htmlspecialchars($row['address'] ?? '-') ?></td>
+                            <td class="px-6 py-4 text-sm text-gray-600"><?= htmlspecialchars($row['phone'] ?? '-') ?></td>
+                            <td class="px-6 py-4 text-sm text-gray-600"><?= (!empty($row['birth_date'])) ? date('d/m/Y', strtotime($row['birth_date'])) : '-' ?></td>
+                            <td class="px-6 py-4 text-center">
+                                <?php
+                                $status = $row['is_verified'] ?? 'unverified';
+                                $bg = 'bg-red-100 text-red-700';
+                                if ($status === 'verified') $bg = 'bg-green-100 text-green-700';
+                                if ($status === 'pending') $bg = 'bg-yellow-100 text-yellow-700';
+                                ?>
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest <?= $bg ?>">
+                                    <?= htmlspecialchars($status) ?>
+                                </span>
+                            </td>
+                        </tr>
+                <?php
+                    }
+                } else {
+                    echo "<tr><td colspan='7' class='py-20 text-center text-gray-400 font-medium italic'>Tidak ada data penyewa yang ditemukan.</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='6' class='py-3' style='text-align:center;'>Tidak ada data Pengguna</td></tr>";
-            }
-            ?>
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <?php
 $content = ob_get_clean();
 $useractive = "active";
 include 'layouts/app.php';
-?>
-
-<?php
 $conn->close();
 ?>

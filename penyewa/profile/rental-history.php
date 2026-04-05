@@ -3,7 +3,6 @@ $user_id = $_SESSION['user_id'];
 
 if (isset($_GET['cancel_id'])) {
     $cancel_id = mysqli_real_escape_string($conn, $_GET['cancel_id']);
-    // Hanya bisa hapus jika milik user ybs dan status masih pending
     $delete = mysqli_query($conn, "DELETE FROM bookings WHERE id = '$cancel_id' AND user_id = '$user_id' AND status = 'pending'");
     if ($delete) {
         echo "<script>window.location.href='index.php?tab=history';</script>";

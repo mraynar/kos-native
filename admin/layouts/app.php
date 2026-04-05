@@ -51,6 +51,10 @@
                     <i class="fa-solid fa-clipboard-check"></i>
                     <span>Assign Task</span>
                 </a>
+                <a href="user-report.php" class="<?= $reportactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>Laporan User</span>
+                </a>
                 <a href="profile.php" class="<?= $profileactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
                     <i class="fas fa-user"></i>
                     <span>Profil</span>
