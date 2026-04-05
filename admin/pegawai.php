@@ -41,7 +41,7 @@ ob_start();
                 <th class="border border-gray-300 px-4 py-2 text-center">No</th>
                 <th class="border border-gray-300 px-4 py-2 text-left">Kode</th>
                 <th class="border border-gray-300 px-4 py-2 text-left">Nama</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">Position</th>
+                <th class="border border-gray-300 px-4 py-2 text-left">Nomor HP</th>
                 <th class="border border-gray-300 px-4 py-2 text-left">Status</th>
                 <th class="border border-gray-300 px-4 py-2 text-center">Aksi</th>
             </tr>
@@ -56,7 +56,7 @@ ob_start();
                     echo "<td class='border border-gray-300 px-4 py-2 text-center'>" . $no++ . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['employee_code']) . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['full_name']) . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['position']) . "</td>";
+                    echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['phone']) . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2'><span class='px-2 py-1 rounded text-sm " . ($row['status'] === 'active' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800') . "'>" . htmlspecialchars($row['status']) . "</span></td>";
                     echo "<td class='border border-gray-300 px-4 py-2 flex gap-2 justify-center'>";
                     echo "<a href='edit-pegawai.php?id=" . htmlspecialchars($row['id']) . "' class='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm w-16 text-center'>Edit</a>";
@@ -65,7 +65,7 @@ ob_start();
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6' style='text-align:center;'>Tidak ada data kamar</td></tr>";
+                echo "<tr><td colspan='6' class='py-3' style='text-align:center;'>Tidak ada data pegawai</td></tr>";
             }
             ?>
         </tbody>
@@ -108,8 +108,6 @@ ob_start();
 $content = ob_get_clean();
 $pegawaiactive = "active";
 include 'layouts/app.php';
-?>
 
-<?php
 $conn->close();
 ?>

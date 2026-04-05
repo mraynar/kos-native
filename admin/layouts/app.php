@@ -18,9 +18,9 @@
     </style>
     <div class="flex h-screen">
         <div class="w-64 bg-gray-900 text-white p-6">
-            <a href="index.php" class="flex justify-between mb-8 items-center mx-2">
+            <a href="index.php" class="flex gap-2 mb-8 items-center mx-2">
                 <i class="fas fa-home text-white text-xl"></i>
-                <h1 class="text-xl font-bold">Griya Asri Admin</h1>
+                <h1 class="text-2xl font-black text-primary tracking-tighter flex items-center gap-2"><?= getSetting($conn, 'site_title'); ?></h1>
             </a>
             <nav class="space-y-4">
                 <a href="index.php" class="<?= $indexactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
@@ -51,10 +51,10 @@
                     <i class="fa-solid fa-clipboard-check"></i>
                     <span>Assign Task</span>
                 </a>
-                <!-- <a href="#" class="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
-                    <i class="fas fa-cog"></i>
-                    <span>Pengaturan</span>
-                </a> -->
+                <a href="profile.php" class="<?= $profileactive ?> flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition">
+                    <i class="fas fa-user"></i>
+                    <span>Profil</span>
+                </a>
             </nav>
         </div>
 

@@ -23,8 +23,8 @@ ob_start();
 ?>
 
 <div class="">
-    <div class="header-content flex items-center justify-between mb-4 align-middle">
-        <h1 class="text-2xl font-bold text-gray-800">Daftar Pesanan</h1>
+    <div class="header-content flex justify-between mb-4 align-middle">
+        <h1 class="text-2xl font-bold text-gray-800">Daftar Pengguna</h1>
         <?php if (!empty($search)): ?>
             <p class="text-sm text-gray-600">
                 Hasil pencarian untuk: <b><?= htmlspecialchars($search) ?></b>
@@ -75,7 +75,7 @@ ob_start();
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6' style='text-align:center;'>Tidak ada data Pengguna</td></tr>";
+                echo "<tr><td colspan='6' class='py-3' style='text-align:center;'>Tidak ada data Pengguna</td></tr>";
             }
             ?>
 </div>

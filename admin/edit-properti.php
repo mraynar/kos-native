@@ -29,8 +29,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $is_water_included     = $_POST['is_water_included'];
     $room_rules   = $_POST['room_rules'];
 
+    $prefix_map = [
+        1 => 'H',
+        2 => 'S',
+        3 => 'N',
+        4 => 'L'
+    ];
+
+    $prefix = $prefix_map[$room_type_id];
+
+    $query = "SELECT room_number FROM rooms
+          WHERE room_number LIKE '$prefix%' 
+          ORDER BY room_number DESC LIMIT 1";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        $last = $result->fetch_assoc()['room_number'];
+
+        $num = (int) substr($last, 1);
+        $num++;
+    } else {
+        $num = 1;
+    }
+
+    $room_number = $prefix . str_pad($num, 2, '0', STR_PAD_LEFT);
+
     $stmt = $conn->prepare("UPDATE rooms SET
         status = ?,
+        room_number = ?,
         room_type_id = ?,
         gender_type = ?,
         price = ?,
@@ -43,8 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ");
 
     $stmt->bind_param(
-        "sisdsdissi",
+        "ssisdsdissi",
         $status,
+        $room_number,
         $room_type_id,
         $gender_type,
         $price,
@@ -119,12 +147,12 @@ ob_start();
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Fasilitas</label>
-                    <input type="text" value="<?= $data['facilities'] ?> placeholder=" Contoh : Bed, Lemari, Meja Belajar" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="facilities" required>
+                    <input type="text" value="<?= $data['facilities'] ?>" placeholder=" Contoh : Bed, Lemari, Meja Belajar" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="facilities" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Ukuran Kamar (m)</label>
-                    <input type="text" value="<?= $data['area_size'] ?> placeholder=" Contoh : 4x6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="area_size" required>
+                    <input type="text" value="<?= $data['area_size'] ?>" placeholder=" Contoh : 4x6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="area_size" required>
                 </div>
 
                 <div class="mb-4">

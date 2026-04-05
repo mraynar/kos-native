@@ -4,47 +4,59 @@ include '../config/database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $full_name = $_POST['full_name'] ?? '';
-    $salary    = $_POST['salary'] ?? 0;
     $phone     = $_POST['phone'] ?? '';
-    $address   = $_POST['address'] ?? '';
-    $position  = $_POST['position'] ?? '';
 
-    $status = 'inactive';
-
-    if (!$full_name || !$salary || !$phone || !$address || !$position) {
-        die("<script>alert('Semua field wajib diisi'); window.location='';</script>");
+    if (!$full_name) {
+        die("<script>alert('Nama wajib diisi'); window.location='';</script>");
     }
 
-    // AUTO GENERATE KODE
-    $result = $conn->query("SELECT MAX(id) as last_id FROM employees");
-    $row = $result->fetch_assoc();
-    $next_id = $row['last_id'] + 1;
+    $status = 'active';
 
-    $employee_code = 'EMP-' . str_pad($next_id, 3, '0', STR_PAD_LEFT);
+    // ambil tahun sekarang (2 digit)
+    $year = date('y'); // contoh: 26
 
+    // cari nomor urut terakhir di tahun ini
+    $query = $conn->prepare("
+        SELECT employee_code 
+        FROM employees 
+        WHERE employee_code LIKE CONCAT('EMP-', ?, '-%') 
+        ORDER BY employee_code DESC 
+        LIMIT 1
+    ");
+    $query->bind_param("s", $year);
+    $query->execute();
+    $result = $query->get_result();
+
+    $next_number = 1;
+
+    if ($row = $result->fetch_assoc()) {
+        // ambil angka terakhir
+        $last_code = $row['employee_code']; // EMP-26-005
+        $last_number = (int) substr($last_code, -3);
+        $next_number = $last_number + 1;
+    }
+
+    // format final
+    $employee_code = 'EMP-' . $year . '-' . str_pad($next_number, 3, '0', STR_PAD_LEFT);
+
+    // insert
     $stmt = $conn->prepare("INSERT INTO employees (
         employee_code,
         full_name,
-        salary,
         phone,
-        address,
-        position,
         status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    ) VALUES (?, ?, ?, ?)");
 
     $stmt->bind_param(
-        "ssissss",
+        "ssss",
         $employee_code,
         $full_name,
-        $salary,
         $phone,
-        $address,
-        $position,
         $status
     );
 
     if ($stmt->execute()) {
-        echo "<script>alert('Data berhasil disimpan'); window.location='pegawai.php';</script>";
+        echo "<script>alert('Pegawai berhasil ditambahkan'); window.location='pegawai.php';</script>";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -64,48 +76,36 @@ ob_start();
                 </div>
             </a>
         </div>
-        <div class="w-full max-w-2xl">
-            <h2 class="text-3xl font-bold mb-6">Edit Data Pegawai</h2>
-            <form method="POST" action="" class="bg-white shadow-md rounded-lg p-6">
+        <div class="w-full max-w-xl">
+            <h2 class="text-3xl font-bold mb-6">Tambah Pegawai</h2>
+
+            <form method="POST" class="bg-white shadow-md rounded-lg p-6">
+
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Nama Lengkap</label>
-                    <input type="text" placeholder="Contoh : John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="full_name" required>
+                    <label class="block font-semibold mb-2">Nama Lengkap</label>
+                    <input type="text" name="full_name"
+                        class="w-full border rounded-lg px-4 py-2"
+                        placeholder="Contoh: Budi Santoso" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Gaji</label>
-                    <input type="number" placeholder="Contoh : 3500000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="salary" required>
+                    <label class="block font-semibold mb-2">Nomor HP</label>
+                    <input type="text" name="phone"
+                        class="w-full border rounded-lg px-4 py-2"
+                        placeholder="08xxxx">
                 </div>
 
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                    Simpan
+                </button>
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Nomor Telepon</label>
-                    <input type="text" placeholder="Contoh : 0821" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="phone" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
-                    <input type="text" placeholder="Contoh : Jl Ketintang" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="address" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Posisi</label>
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" name="position" required>
-                        <option selected disabled>-- Pilih --</option>
-                        <option value="Admin Operasional">Admin Operasional</option>
-                        <option value="Cleaning Service">Cleaning Service</option>
-                        <option value="Penjaga Kos">Penjaga Kos</option>
-                        <option value="Maintenance">Maintenance</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">Simpan Data</button>
             </form>
         </div>
+
         <div></div>
     </div>
 </div>
-
 
 <?php
 $content = ob_get_clean();

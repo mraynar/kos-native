@@ -64,7 +64,7 @@ ob_start();
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6' style='text-align:center;'>Tidak ada data kamar</td></tr>";
+                echo "<tr><td colspan='6' class='py-3' style='text-align:center;'>Tidak ada data kamar</td></tr>";
             }
             ?>
 </div>

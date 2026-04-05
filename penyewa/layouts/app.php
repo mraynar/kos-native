@@ -41,7 +41,7 @@ $nickname = $is_logged_in ? ($_SESSION['nickname'] ?? 'Penyewa') : 'Tamu';
                     <span class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center not-italic shadow-lg shadow-primary/20">
                         <i class="fas fa-home text-white text-xs"></i>
                     </span>
-                    Griya Asri Kos
+                    <?= getSetting($conn, 'site_title'); ?>
                 </a>
 
                 <div class="hidden md:flex items-center space-x-8">

@@ -54,13 +54,13 @@ ob_start();
                     echo "<td class='border border-gray-300 px-4 py-2'>" . htmlspecialchars($row['duration_type']) . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2'>Rp" . number_format($row['service_price'], 0, ',', '.') . "</td>";
                     echo "<td class='border border-gray-300 px-4 py-2 flex gap-2 justify-center'>";
-                    echo "<a href='edit-properti.php?id=" . htmlspecialchars($row['id']) . "' class='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm w-16 text-center'>Edit</a>";
+                    echo "<a href='edit-service.php?id=" . htmlspecialchars($row['id']) . "' class='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm w-16 text-center'>Edit</a>";
                     echo "<button onclick=\"openModal(" . $row['id'] . ")\" class=\"bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm\">Hapus</button>";
                     echo "</td>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6' style='text-align:center;'>Tidak ada data service</td></tr>";
+                echo "<tr><td colspan='6' class='py-3' style='text-align:center;'>Tidak ada data service</td></tr>";
             }
             ?>
 </div>
