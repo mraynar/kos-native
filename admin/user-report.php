@@ -60,7 +60,7 @@ ob_start();
             <h3 class="text-lg font-semibold text-gray-900">Daftar Laporan Masalah</h3>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left">
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-xs font-semibold text-gray-600 uppercase">Lokasi</th>
@@ -85,7 +85,7 @@ ob_start();
                                     <?php if ($row['photo']): ?>
                                         <button onclick="openPhotoModal('/kos-native/assets/img/reports/<?= $row['photo'] ?>')"
                                             class="text-blue-500 hover:text-blue-700 transition-transform active:scale-90">
-                                            <i class="fas fa-image text-lg"></i>
+                                            <i class="fas <?= $row['status'] === 'done' ? 'fa-check-circle text-green-500' : 'fa-image' ?> text-lg"></i>
                                         </button>
                                     <?php else: ?>
                                         <span class="text-gray-300 italic text-xs">No Photo</span>

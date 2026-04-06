@@ -21,9 +21,16 @@ if (isset($_POST['update_status'])) {
     $foto_nama = null;
     if (isset($_FILES['bukti_foto']) && $_FILES['bukti_foto']['error'] === 0) {
         $ext = pathinfo($_FILES['bukti_foto']['name'], PATHINFO_EXTENSION);
-        $foto_nama = "MAINT_" . time() . "_" . $req_id . "." . $ext;
-        $target = "../../assets/img/reports/" . $foto_nama;
-        move_uploaded_file($_FILES['bukti_foto']['tmp_name'], $target);
+        $foto_nama = "MAINT_" . time() . "_" . $pegawai_id . "." . $ext;
+
+        $target_dir = "../assets/img/reports/";
+
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
+        $target_file = $target_dir . $foto_nama;
+        move_uploaded_file($_FILES['bukti_foto']['tmp_name'], $target_file);
     }
 
     $update_query = "UPDATE maintenance_requests SET status = 'done'";
@@ -173,7 +180,6 @@ ob_start();
     function previewImage(input) {
         const preview = document.getElementById('img-preview');
         const placeholder = document.getElementById('preview-placeholder');
-
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
