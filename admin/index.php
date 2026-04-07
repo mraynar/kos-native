@@ -47,11 +47,13 @@ if ($filter_type === 'year') {
 }
 
 $queryLine = $conn->query("
-    SELECT DATE_FORMAT(created_at, '$dateFormat') as period, SUM(total_price) as total_income
+    SELECT 
+        DATE_FORMAT(created_at, '$dateFormat') as period, 
+        SUM(total_price) as total_income
     FROM bookings 
     WHERE status = 'paid' AND $whereClause
-    GROUP BY $groupBy 
-    ORDER BY created_at ASC
+    GROUP BY period
+    ORDER BY period ASC
 ");
 
 $categories = [];
@@ -96,7 +98,7 @@ ob_start();
         <div class="flex justify-between items-center text-left">
             <div>
                 <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-1">Total Pendapatan</p>
-                <p class="text-2xl font-bold text-gray-900">Rp <?= number_format($totalPendapatan, 0, ',', '.') ?></p>
+                <p class="text-2xl font-bold text-gray-900">Rp<?= number_format($totalPendapatan, 0, ',', '.') ?></p>
             </div>
             <i class="fas fa-wallet text-3xl text-red-500 opacity-20"></i>
         </div>

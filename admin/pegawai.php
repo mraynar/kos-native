@@ -34,35 +34,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 ob_start();
 ?>
 
-<div class="">
-    <div class="header-content flex items-center justify-between mb-4 align-middle">
-        <h1 class="text-2xl font-bold text-gray-800">Daftar Akun Pegawai</h1>
-        <a href="create-pegawai.php" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow-sm transition-all">Tambah Pegawai</a>
-    </div>
+<div class="header-content flex items-center justify-between mb-4 align-middle">
+    <h1 class="text-2xl font-bold text-gray-800">Daftar Akun Pegawai</h1>
+    <a href="create-pegawai.php" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow-sm transition-all">Tambah Pegawai</a>
+</div>
 
-    <table class="w-full border-collapse border border-gray-300 shadow-sm">
+<div class="bg-white rounded-lg shadow overflow-hidden border border-gray-100 text-left">
+    <table class="w-full border-collapse">
         <thead class="bg-blue-600 text-white">
             <tr>
-                <th class="border border-gray-300 px-4 py-3 text-center text-sm uppercase tracking-wider">No</th>
-                <th class="border border-gray-300 px-4 py-3 text-left text-sm uppercase tracking-wider">Nickname</th>
-                <th class="border border-gray-300 px-4 py-3 text-left text-sm uppercase tracking-wider">Nama Lengkap</th>
-                <th class="border border-gray-300 px-4 py-3 text-left text-sm uppercase tracking-wider">Email Login</th>
-                <th class="border border-gray-300 px-4 py-3 text-left text-sm uppercase tracking-wider">WhatsApp</th>
-                <th class="border border-gray-300 px-4 py-3 text-center text-sm uppercase tracking-wider">Aksi</th>
+                <th class="px-6 py-4 text-center text-sm font-semibold uppercase tracking-wider">No</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Nickname</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Nama Lengkap</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Email Login</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">WhatsApp</th>
+                <th class="px-6 py-4 text-center text-sm font-semibold uppercase tracking-wider">Aksi</th>
             </tr>
         </thead>
-        <tbody class="bg-white">
+        <tbody class="divide-y divide-gray-200">
             <?php
             if ($result->num_rows > 0) {
                 $no = 1;
                 while ($row = $result->fetch_assoc()) {
-                    echo "<tr class='hover:bg-gray-50 border-b border-gray-300 transition-colors'>";
-                    echo "<td class='border border-gray-300 px-4 py-3 text-center text-gray-600'>" . $no++ . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-3 font-bold text-slate-800'>" . htmlspecialchars($row['nickname']) . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-3 text-gray-700'>" . htmlspecialchars($row['name'] ?? '-') . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-3 text-blue-600 font-medium'>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-3 text-gray-700'>" . htmlspecialchars($row['phone']) . "</td>";
-                    echo "<td class='border border-gray-300 px-4 py-3 flex gap-2 justify-center items-center'>";
+                    echo "<tr class='hover:bg-gray-50 transition-colors'>";
+                    echo "<td class='px-6 py-4 text-center text-sm text-gray-600'>" . $no++ . "</td>";
+                    echo "<td class='px-6 py-4 text-sm font-bold text-gray-900'>" . htmlspecialchars($row['nickname']) . "</td>";
+                    echo "<td class='px-6 py-4 text-sm text-gray-600'>" . htmlspecialchars($row['name'] ?? '-') . "</td>";
+                    echo "<td class='px-6 py-4 text-sm text-blue-600 font-bold'>" . htmlspecialchars($row['email']) . "</td>";
+                    echo "<td class='px-6 py-4 text-sm text-gray-600'>" . htmlspecialchars($row['phone']) . "</td>";
+                    echo "<td class='px-6 py-4 text-sm text-gray-600 flex gap-2 justify-center items-center'>";
                     echo "<a href='edit-pegawai.php?id=" . $row['id'] . "' class='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-bold w-16 text-center transition-all'>Edit</a>";
                     echo "<button onclick=\"openModal(" . $row['id'] . ")\" class=\"bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-xs font-bold transition-all\">Hapus</button>";
                     echo "</td>";
